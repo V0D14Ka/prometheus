@@ -35,7 +35,7 @@ sudo systemctl start prometheus
 sudo systemctl status prometheus
 sudo systemctl enable prometheus
 
-cat <<EOF> /etc/systemd/system/prometheus.service
+cat <<EOF> /etc/prometheus/prometheus.yml
 global:
   scrape_interval: 15s
   scrape_timeout: 10s
