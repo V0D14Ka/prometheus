@@ -7,7 +7,7 @@ Requires=docker.service
 After=docker.service
  
 [Service]
-Restart=always
+Restart=on-failure
 ExecStartPre=-/usr/bin/docker rm blackbox-exporter
 ExecStart=/usr/bin/docker run \
   --rm \
