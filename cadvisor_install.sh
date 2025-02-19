@@ -1,4 +1,5 @@
 useradd -M -u 1202 -s /bin/false cadvisor
+usermod -aG docker cadvisor
 
 cat <<EOF> /etc/systemd/system/cadvisor.service
 [Unit]
@@ -12,6 +13,7 @@ ExecStartPre=-/usr/bin/docker rm cadvisor
 ExecStart=/usr/bin/docker run \
   --rm \
   --user=1202 \
+  --group-add $(stat -c %g /var/run/docker.sock) \
   --publish=8080:8080 \
   --volume=/:/rootfs:ro \
   --volume=/var/run:/var/run:ro \
