@@ -59,10 +59,15 @@ ExecStartPre=-/usr/bin/docker rm grafana
 ExecStart=/usr/bin/docker run \
   --rm \
   --user=1102 \
-  --publish=3000:3000 \
+  --publish=443:3000 \
   --memory=1024m \
   --volume=/etc/grafana/provisioning:/etc/grafana/provisioning \
   --volume=/data/grafana:/var/lib/grafana \
+  --volume=/etc/letsencrypt/live/yourdomain.ru/fullchain.pem:/etc/grafana/grafana.crt:ro \
+  --volume=/etc/letsencrypt/live/yourdomain.ru/privkey.pem:/etc/grafana/grafana.key:ro \
+  --env GF_SERVER_PROTOCOL=https \
+  --env GF_SERVER_CERT_FILE=/etc/grafana/grafana.crt \
+  --env GF_SERVER_CERT_KEY=/etc/grafana/grafana.key \
   --name=grafana \
   grafana/grafana:9.2.8
 ExecStop=/usr/bin/docker stop -t 10 grafana
